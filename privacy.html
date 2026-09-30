@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Better Gmail privacy policy</title>
+<style>
+:root { --ink:#1f1f1f; --dim:#5f6368; --accent:#1a73e8; --bg:#f6f8fc; --card:#fff; }
+@media (prefers-color-scheme: dark) { :root { --ink:#e8eaed; --dim:#9aa0a6; --accent:#8ab4f8; --bg:#1b1c1f; --card:#26272b; } }
+body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui,-apple-system,Roboto,sans-serif; }
+main { max-width:760px; margin:0 auto; padding:32px 16px 64px; }
+.card { background:var(--card); border-radius:16px; padding:24px 28px; }
+h1 { font-size:28px; margin:0 0 8px; } h2 { font-size:19px; margin:28px 0 6px; }
+a { color:var(--accent); } code { font-size:14px; } .dim { color:var(--dim); }
+img { max-width:100%; border-radius:12px; box-shadow:0 4px 18px rgba(0,0,0,.12); }
+nav { margin-bottom:16px; }
+</style></head><body><main>
+<nav><a href="index.html">Better Gmail</a> · <a href="privacy.html">Privacy policy</a></nav>
+<div class="card"><h1>Better Gmail — Privacy Policy</h1>
+<p><i>Last updated: September 30, 2026</i></p>
+<p>Better Gmail is a Chrome extension that adds an AI assistant to Gmail and Google Chat. This page says exactly what it reads, where that goes, and what it never does.</p>
+<h2>What it reads</h2>
+<p>When you use Gmail with Better Gmail installed, it reads, <b>inside your own browser</b>:</p>
+<ul><li><b>The email thread you open</b> — so it can summarize it and help you reply.</li><li><b>The list of messages in your inbox</b> (sender, subject and the one-line preview Gmail shows) — to sort today&#x27;s inbox and to colour rows.</li><li><b>The Google Chat conversation you open</b> (who wrote each message, when, and its text). The first time, it scrolls back through the whole conversation once; after that it reads only messages newer than the last one it saw.</li><li><b>Your unread Google Chat conversations</b>, when you open the Unread tab — only the messages newer than the last ones it read. It opens them in a background tab and marks them unread again afterwards.</li><li><b>About a dozen emails from your Sent folder</b>, once, when you first use &quot;My voice&quot;, to learn how you write. Only the short description of your style it produces is kept.</li><li><b>Once an hour, for notifications</b>: which unread emails in your inbox are from your school&#x27;s domain, your Google Chat mentions, and the new messages in unread chats. Only the chat messages are sent to Anthropic, to ask whether any of them asks you something.</li><li><b>What you type into Better Gmail</b>, and the text you have written in a Gmail reply box when you press <i>Write it</i> or <i>Fix my writing</i>.</li></ul>
+<h2>Where it goes</h2>
+<ul><li>To <b>Anthropic&#x27;s API</b> (<code>api.anthropic.com</code>), and nowhere else, using <b>the API key you enter yourself</b>. It is sent when a summary or digest is made (automatically, unless you turn that off in Settings) and when you press a button or send a chat message.</li><li><b>Nothing is sent to the developers of Better Gmail.</b> There is no server of ours, no analytics, no tracking and no advertising.</li><li>Anthropic handles that data under its own terms and privacy policy: <a href="https://www.anthropic.com/legal/privacy">https://www.anthropic.com/legal/privacy</a>.</li></ul>
+<h2>What is stored</h2>
+<p>In your browser&#x27;s local extension storage only: your API key, your settings, the most recent summaries and today&#x27;s digest, for each Google Chat conversation a short summary plus the time of the last message it read, the description of your writing style, and which emails and mentions it has already told you about (so the same email is not summarized twice). Your API key is never synced to other devices. Removing the extension deletes all of it.</p>
+<h2>What it never does</h2>
+<ul><li>It never sends or deletes your email, never reports anything as spam, and never changes your Gmail settings. It archives, marks read, stars, labels or unsubscribes only when you press Confirm on a list it showed you, and it does so with Gmail&#x27;s own buttons.</li><li>It never presses Send, and never sends a Google Chat message. Replies it writes are placed in Gmail&#x27;s own reply box, and <b>you</b> decide whether to send them.</li><li>It never sells, shares or transfers your data to anyone, and never uses it for anything except the features above.</li></ul>
+<h2>Permissions</h2>
+<ul><li><code>storage</code> — to keep your key, settings, recent summaries and the chat.</li><li><code>alarms</code> — to run the hourly check. Turn it off under Settings → Notifications.</li><li><code>notifications</code> — to show you what the hourly check found.</li><li><code>scripting</code> — to search your mail and carry out actions you confirmed, in a background Gmail tab.</li><li><code>https://mail.google.com/*</code> — to show the panel inside Gmail and read the email you open.</li><li><code>https://chat.google.com/*</code> — to show the panel inside Google Chat and read the conversation you open.</li><li><code>https://api.anthropic.com/*</code> — to send requests to Claude with your key.</li></ul>
+<h2>Contact</h2>
+<p>Questions: email the developer at the address on Better Gmail&#x27;s Chrome Web Store listing.</p></div></main></body></html>
