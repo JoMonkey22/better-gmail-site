@@ -46,8 +46,9 @@
 
   let started = false;
   window.addEventListener("message", async (e) => {
-    // Only Better Gmail's own pages (a Chrome extension) may start a payment.
-    if (started || e.source !== window.parent || !/^chrome-extension:\/\/[a-p]{32}$/.test(e.origin)) return;
+    // Only Better Gmail's or SillyBus's own pages may start a payment: a
+    // Chrome extension, or SillyBus's window, which is a page on this Mac.
+    if (started || e.source !== window.parent || !/^(chrome-extension:\/\/[a-p]{32}|http:\/\/(127\.0\.0\.1|localhost)(:\d{2,5})?)$/.test(e.origin)) return;
     const m = e.data || {};
     if (m.type !== "bgx-checkout" || !/^pk_(test|live)_/.test(m.publishableKey || "") || !m.clientSecret) return;
     started = true;
