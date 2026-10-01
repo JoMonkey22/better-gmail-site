@@ -36,8 +36,13 @@
   }
 
   // Keep the extension's frame as tall as the form, so there is one scrollbar.
-  new ResizeObserver(() => tell({ type: "bgx-height", height: document.documentElement.scrollHeight }))
-    .observe(document.body);
+  // The body's own height, not the document's: that one is never less than
+  // the frame, so it would only ever grow. Sent only when it changes.
+  let lastHeight = 0;
+  new ResizeObserver(() => {
+    const height = Math.ceil(document.body.getBoundingClientRect().height);
+    if (height !== lastHeight) { lastHeight = height; tell({ type: "bgx-height", height }); }
+  }).observe(document.body);
 
   let started = false;
   window.addEventListener("message", async (e) => {
