@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Better Gmail Checkout</title>
+<!-- Better Gmail's payment form. The extension's settings page shows this
+     page inside itself, because Chrome does not let an extension load
+     Stripe's script into its own pages. The extension hands it a Checkout
+     Session's client secret by postMessage (never in the address), and this
+     page tells the extension when the payment went through. It holds no key
+     and stores nothing. -->
+<style>
+  :root { --ink: #1f1f1f; --dim: #5f6368; --bg: #ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ink: #e8eaed; --dim: #9aa0a6; --bg: #ffffff; } }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  #note { padding: 24px 16px; color: var(--dim); text-align: center; }
+  #checkout { min-height: 200px; }
+</style>
+</head>
+<body>
+<div id="note">Loading the payment form…</div>
+<div id="checkout"></div>
+<script src="https://js.stripe.com/dahlia/stripe.js"></script>
+<script>
+(() => {
+  const note = document.getElementById("note");
+  const tell = (msg) => { if (window.parent !== window) window.parent.postMessage(msg, "*"); };
+
+  // Back from a payment method that had to leave the page (a bank's own
+  // page): the payment is done, so say so and let the extension recheck.
+  if (new URLSearchParams(location.search).get("done") === "1") {
+    note.textContent = "Thank you! You're subscribed. You can close this.";
+    tell({ type: "bgx-paid" });
+    return;
+  }
+
+  // Keep the extension's frame as tall as the form, so there is one scrollbar.
+  new ResizeObserver(() => tell({ type: "bgx-height", height: document.documentElement.scrollHeight }))
+    .observe(document.body);
+
+  let started = false;
+  window.addEventListener("message", async (e) => {
+    // Only Better Gmail's own pages (a Chrome extension) may start a payment.
+    if (started || e.source !== window.parent || !/^chrome-extension:\/\/[a-p]{32}$/.test(e.origin)) return;
+    const m = e.data || {};
+    if (m.type !== "bgx-checkout" || !/^pk_(test|live)_/.test(m.publishableKey || "") || !m.clientSecret) return;
+    started = true;
+    try {
+      const stripe = Stripe(m.publishableKey);
+      const checkout = await stripe.createEmbeddedCheckoutPage({
+        fetchClientSecret: async () => m.clientSecret,
+        onComplete: () => tell({ type: "bgx-paid" }),
+      });
+      note.hidden = true;
+      checkout.mount("#checkout");
+    } catch (err) {
+      note.textContent = "The payment form could not load. Close this and try again.";
+      tell({ type: "bgx-checkout-failed", error: String(err && err.message || err) });
+    }
+  });
+  tell({ type: "bgx-ready" });
+})();
+</script>
+</body>
+</html>
